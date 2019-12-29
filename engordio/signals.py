@@ -1,5 +1,11 @@
-from collections import namedtuple
+from dataclasses import dataclass
 
 
-Scan = namedtuple('Scan', ['path'])
-Decompress = namedtuple('Decompress', ['path'])
+@dataclass
+class Scan:
+    path: str
+
+
+@dataclass
+class Decompress:
+    path: str
