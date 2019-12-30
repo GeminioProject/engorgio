@@ -1,18 +1,67 @@
+"""
+This module contains the signals used by `engordio` to exchange
+information among its internal components.
+
+Signals are immutable dataclasses containing some information produced
+by one of the aforementioned components and received by any component(s)
+interested on them.
+
+To subscribe to a particular signal use the `connect` method passing a
+handler.  For example to subscribe to the `UserScanRequested` signal do
+the following::
+
+>>> def handler(sender, signal):
+...     print(f"{signal} received!")
+...
+>>> UserScanRequested.connect(handler)
+
+Then at any time a `UserScanRequested` signal is emitted the `handler`
+will be called::
+
+>>> UserScanRequested(path="some path").emit()
+UserScanRequested(path="some path") received!
+
+"""
 from dataclasses import dataclass
 
 import blinker
 
 
 class _Signal:
+    """
+    Base class for all signals.
+
+    Provides utility functions to interface with `blinker`.
+
+    """
     @property
     def _signal(self):
+        """
+        A singleton of a blinker signal named after the current class.
+
+        """
         return blinker.signal(self.__class__.__name__)
 
     @classmethod
     def connect(cls, handler):
+        """
+        Connect the given handler with this signal type so it will
+        receive any *emitted* signal of this type.
+
+        The handler function should have the following signature:
+
+        >>> def handler(sender, signal):
+        ...     pass
+
+        """
         blinker.signal(cls.__name__).connect(handler)
 
     def emit(self):
+        """
+        Emit this signal to all the handlers connected to this type of
+        signal.
+
+        """
         return self._signal.send(signal=self)
 
 
