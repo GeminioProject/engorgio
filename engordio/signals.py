@@ -4,31 +4,32 @@ import blinker
 
 
 class _Signal:
-    def __post_init__(self):
-        self._signal = blinker.signal(self.__class__.__name__)
+    @property
+    def _signal(self):
+        return blinker.signal(self.__class__.__name__)
 
 
 @dataclass(frozen=True)
-class DirFound:
+class DirFound(_Signal):
     """A directory was found under the root path."""
     path: str
 
 
 @dataclass(frozen=True)
-class FileFound:
+class FileFound(_Signal):
     """A file was found under the root path."""
     path: str
 
 
-@dataclass
-class UserScanRequested:
+@dataclass(frozen=True)
+class UserScanRequested(_Signal):
     """The user requested some path to be recusively decompressed."""
     #: The root path
     path: str
 
 
-@dataclass
-class Decompressed:
+@dataclass(frozen=True)
+class Decompressed(_Signal):
     """Some archive was succesfully decompressed."""
     #: Source archive path
     source: str
@@ -36,8 +37,8 @@ class Decompressed:
     path: str
 
 
-@dataclass
-class DecompressionDiscarded:
+@dataclass(frozen=True)
+class DecompressionDiscarded(_Signal):
     """Some archive file was not decompressed by means of some policy."""
     #: Archive path
     path: str
@@ -45,8 +46,8 @@ class DecompressionDiscarded:
     reason: str
 
 
-@dataclass
-class DecompressionFailed:
+@dataclass(frozen=True)
+class DecompressionFailed(_Signal):
     """The decompression of an archive failed."""
     #: Source archive path
     source: str
@@ -56,8 +57,8 @@ class DecompressionFailed:
     partial: bool
 
 
-@dataclass
-class ContentAdded:
+@dataclass(frozen=True)
+class ContentAdded(_Signal):
     """New (decompressed) content has been added under the root path."""
     #: Source archive path
     source: str
