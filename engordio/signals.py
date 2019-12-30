@@ -12,6 +12,9 @@ class _Signal:
     def connect(cls, handler):
         blinker.signal(cls.__name__).connect(handler)
 
+    def emit(self):
+        return self._signal.send(signal=self)
+
 
 @dataclass(frozen=True)
 class DirFound(_Signal):

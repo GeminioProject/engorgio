@@ -72,3 +72,26 @@ def test_signal_connect_does_connect_to_signal():
     res = obj._signal.send(signal=obj)
 
     assert res[0][1] is obj
+
+
+def test_signal_subclass_has_emit():
+    class Dummy(signals._Signal):
+        pass
+
+    assert hasattr(Dummy(), 'emit')
+
+
+def test_signal_emit_send_signal_to_connected_handler():
+    class Dummy(signals._Signal):
+        pass
+    sent = None
+    def handler(sender, signal):
+        nonlocal sent
+        sent = signal
+    Dummy.connect(handler)
+    obj = Dummy()
+
+    obj.emit()
+
+    assert sent is obj
+
