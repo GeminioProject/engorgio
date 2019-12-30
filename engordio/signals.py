@@ -1,5 +1,12 @@
 from dataclasses import dataclass
 
+import blinker
+
+
+class _Signal:
+    def __post_init__(self):
+        self._signal = blinker.signal(self.__class__.__name__)
+
 
 @dataclass(frozen=True)
 class DirFound:
