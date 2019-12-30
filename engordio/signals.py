@@ -8,6 +8,10 @@ class _Signal:
     def _signal(self):
         return blinker.signal(self.__class__.__name__)
 
+    @classmethod
+    def connect(cls, handler):
+        blinker.signal(cls.__name__).connect(handler)
+
 
 @dataclass(frozen=True)
 class DirFound(_Signal):

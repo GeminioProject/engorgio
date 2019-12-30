@@ -52,3 +52,23 @@ def test_signal_dataclass_subclass_instances_have_same_signal():
                           signals.ContentAdded])
 def test_signals_are_subclass_of_signal_base_class(cls):
     assert issubclass(cls, signals._Signal)
+
+
+def test_signal_subclass_has_connect():
+    class Dummy(signals._Signal):
+        pass
+
+    assert hasattr(Dummy(), 'connect')
+
+
+def test_signal_connect_does_connect_to_signal():
+    class Dummy(signals._Signal):
+        pass
+    def handler(sender, signal):
+        return signal
+    Dummy.connect(handler)
+    obj = Dummy()
+
+    res = obj._signal.send(signal=obj)
+
+    assert res[0][1] is obj
