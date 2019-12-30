@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class DirFound:
     """A directory was found under the root path."""
     path: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class FileFound:
     """A file was found under the root path."""
     path: str
