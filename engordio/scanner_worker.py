@@ -1,9 +1,11 @@
-from engordio.signals import Scan, Decompress
+from engordio.signals import DirFound, FileFound
 
 
-def scanner_worker(filepath, scan_queue, decompress_queue, scan_fn):
-    for e in scan_fn(filepath):
-        if isinstance(e, Scan):
-            scan_queue.put(e.path)
+def dispatch_signals(scan_queue, decompress_queue, signals):
+    for s in signals:
+        if isinstance(s, DirFound):
+            scan_queue.put(s.path)
+        elif isinstance(s, FileFound):
+            decompress_queue.put(s.path)
         else:
-            decompress_queue.put(e.path)
+            raise ValueError(f'Unknown signal {s!r}')

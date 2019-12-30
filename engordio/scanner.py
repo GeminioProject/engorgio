@@ -1,5 +1,5 @@
-from engordio.signals import Decompress
+from engordio.signals import FileFound
 
 
 def scan(filepath):
-    yield Decompress(path=filepath)
+    yield FileFound(path=filepath)

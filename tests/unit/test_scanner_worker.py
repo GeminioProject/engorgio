@@ -1,44 +1,35 @@
 import queue
 
-from engordio.scanner_worker import scanner_worker
-from engordio.signals import Scan, Decompress
+import pytest
 
-
-def test_call_scanner_with_file():
-    scan_queue = queue.Queue()
-    decompress_queue = queue.Queue()
-
-    called_with = None
-    def scanner_scan(filepath):
-        nonlocal called_with
-        called_with = filepath
-        if False:
-            yield
-
-    scanner_worker('FOO', scan_queue, decompress_queue, scanner_scan)
-
-    assert called_with == 'FOO'
+from engordio.scanner_worker import dispatch_signals
+from engordio.signals import DirFound, FileFound
 
 
 def test_add_to_scan_queue_scan_signals_from_scanner():
     scan_queue = queue.Queue()
     decompress_queue = queue.Queue()
+    path = object()
 
-    def scanner_scan(filepath):
-        yield Scan(filepath)
+    dispatch_signals(scan_queue, decompress_queue, [DirFound(path)])
 
-    scanner_worker('FOO', scan_queue, decompress_queue, scanner_scan)
-
-    assert scan_queue.get_nowait() == 'FOO'
+    assert scan_queue.get_nowait() == path
 
 
 def test_add_to_decompress_queue_decompress_signals_from_scanner():
     scan_queue = queue.Queue()
     decompress_queue = queue.Queue()
+    path = object()
 
-    def scanner_scan(filepath):
-        yield Decompress(filepath)
+    dispatch_signals(scan_queue, decompress_queue, [FileFound(path)])
 
-    scanner_worker('FOO', scan_queue, decompress_queue, scanner_scan)
+    assert decompress_queue.get_nowait() == path
 
-    assert decompress_queue.get_nowait() == 'FOO'
+
+def test_raises_if_unknown_signal():
+    scan_queue = queue.Queue()
+    decompress_queue = queue.Queue()
+    path = object()
+
+    with pytest.raises(ValueError):
+        dispatch_signals(scan_queue, decompress_queue, [object()])
