@@ -19,4 +19,3 @@ def test_objects_are_importable(module, name):
         exec(f'from {module} import {name}')
     except ImportError as exc:
         assert False, exc
-

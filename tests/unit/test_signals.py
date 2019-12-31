@@ -64,6 +64,7 @@ def test_signal_subclass_has_connect():
 def test_signal_connect_does_connect_to_signal():
     class Dummy(signals._Signal):
         pass
+
     def handler(sender, signal):
         return signal
     Dummy.connect(handler)
@@ -85,6 +86,7 @@ def test_signal_emit_send_signal_to_connected_handler():
     class Dummy(signals._Signal):
         pass
     sent = None
+
     def handler(sender, signal):
         nonlocal sent
         sent = signal
@@ -94,4 +96,3 @@ def test_signal_emit_send_signal_to_connected_handler():
     obj.emit()
 
     assert sent is obj
-

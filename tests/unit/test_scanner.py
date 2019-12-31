@@ -7,7 +7,6 @@ from engordio.scanner import classify_path, scandir
 from engordio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
 
 
-
 def test_classify_path_returns_a_filefound_if_regular_file():
     with tempfile.NamedTemporaryFile() as file:
         assert classify_path(file.name) == FileFound(path=file.name)
@@ -84,5 +83,6 @@ def test_scandir_returns_a_dirfound_if_dir_contains_dir():
 
 def test_scandir_return_a_list_of_signals_if_dir_contains_dotfile():
     with tempfile.TemporaryDirectory() as path:
-        with tempfile.NamedTemporaryFile(prefix='.', dir=path) as file, tempfile.TemporaryDirectory(dir=path) as subdir:
+        with tempfile.NamedTemporaryFile(prefix='.', dir=path) \
+                as file, tempfile.TemporaryDirectory(dir=path) as subdir:
             assert set(scandir(path)) == {FileFound(path=file.name), DirFound(path=subdir)}

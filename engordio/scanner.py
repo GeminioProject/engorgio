@@ -8,7 +8,8 @@ Find files to decompress.
 """
 import os
 
-from engordio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
+from engordio.signals import FileFound, DirFound, SymlinkFound, \
+    SpecialFileFound
 
 
 def classify_path(path):
@@ -41,4 +42,3 @@ def scandir(path):
                 yield DirFound(path=entry.path)
             else:
                 yield SpecialFileFound(path=entry.path)
-

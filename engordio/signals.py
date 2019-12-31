@@ -132,4 +132,3 @@ class ContentAdded(_Signal):
     source: str
     #: Final destination path of the added content
     path: str
-

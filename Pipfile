@@ -11,6 +11,7 @@ pytest = "*"
 engordio = {editable = true,path = "."}
 coverage = "*"
 pytest-cov = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.7"
