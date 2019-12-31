@@ -1,4 +1,4 @@
-# engordio
+# engorgio
 
 Recursive file decompressor.
 

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import blinker
 import pytest
 
-from engordio import signals
+from engorgio import signals
 
 
 def test_signal_dataclass_subclasses_have_blinker_signal():

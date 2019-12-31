@@ -1,11 +1,11 @@
 """
-Engordio
+Engorgio
 ========
 
 Architecture
 ------------
 
-Engordio is made of a list of entities that run concurrently and exchange
+Engorgio is made of a list of entities that run concurrently and exchange
 messages among them.
 
 Those entities are started and configured by the module `master`.

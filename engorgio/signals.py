@@ -1,5 +1,5 @@
 """
-This module contains the signals used by `engordio` to exchange
+This module contains the signals used by `engorgio` to exchange
 information among its internal components.
 
 Signals are immutable dataclasses containing some information produced

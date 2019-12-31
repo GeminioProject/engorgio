@@ -3,8 +3,8 @@ import os
 import tempfile
 
 
-from engordio.scanner import classify_path, scandir
-from engordio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
+from engorgio.scanner import classify_path, scandir
+from engorgio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
 
 
 def test_classify_path_returns_a_filefound_if_regular_file():

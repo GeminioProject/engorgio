@@ -3,16 +3,16 @@ import pytest
 
 @pytest.mark.parametrize('module,name', [
     # Signals
-    ('engordio.signals', '_Signal'),
-    ('engordio.signals', 'DirFound'),
-    ('engordio.signals', 'FileFound'),
-    ('engordio.signals', 'SymlinkFound'),
-    ('engordio.signals', 'SpecialFileFound'),
-    ('engordio.signals', 'UserScanRequested'),
-    ('engordio.signals', 'Decompressed'),
-    ('engordio.signals', 'DecompressionDiscarded'),
-    ('engordio.signals', 'DecompressionFailed'),
-    ('engordio.signals', 'ContentAdded'),
+    ('engorgio.signals', '_Signal'),
+    ('engorgio.signals', 'DirFound'),
+    ('engorgio.signals', 'FileFound'),
+    ('engorgio.signals', 'SymlinkFound'),
+    ('engorgio.signals', 'SpecialFileFound'),
+    ('engorgio.signals', 'UserScanRequested'),
+    ('engorgio.signals', 'Decompressed'),
+    ('engorgio.signals', 'DecompressionDiscarded'),
+    ('engorgio.signals', 'DecompressionFailed'),
+    ('engorgio.signals', 'ContentAdded'),
 ])
 def test_objects_are_importable(module, name):
     try:

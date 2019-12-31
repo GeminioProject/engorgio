@@ -8,7 +8,7 @@ ipython = "*"
 
 [packages]
 pytest = "*"
-engordio = {editable = true,path = "."}
+engorgio = {editable = true,path = "."}
 coverage = "*"
 pytest-cov = "*"
 flake8 = "*"
