@@ -9,6 +9,8 @@ ipython = "*"
 [packages]
 pytest = "*"
 engordio = {editable = true,path = "."}
+coverage = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
