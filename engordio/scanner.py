@@ -1,3 +1,11 @@
+"""
+Scanner
+=======
+
+Find files to decompress.
+
+
+"""
 import os
 
 from engordio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
