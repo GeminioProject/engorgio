@@ -34,9 +34,11 @@ def test_has_some_regular_methods(name):
 
 
 def test_store_config():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -48,10 +50,12 @@ def test_store_config():
 
 def test_call_configure():
     called = False
+
     class Dummy(Entity):
         def _configure(self):
             nonlocal called
             called = True
+
         def _prepare(self):
             pass
 
@@ -61,9 +65,11 @@ def test_call_configure():
 
 
 def test_start_should_raise_if_prepare_not_called():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -74,9 +80,11 @@ def test_start_should_raise_if_prepare_not_called():
 
 
 def test_return_none_on_start():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -87,9 +95,11 @@ def test_return_none_on_start():
 
 
 def test_join_should_raise_if_start_not_called():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -100,9 +110,11 @@ def test_join_should_raise_if_start_not_called():
 
 
 def test_return_none_on_join():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -114,9 +126,11 @@ def test_return_none_on_join():
 
 
 def test_raise_if_joined_twice():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -130,9 +144,11 @@ def test_raise_if_joined_twice():
 
 
 def test_raise_if_prepare_after_join():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -146,9 +162,11 @@ def test_raise_if_prepare_after_join():
 
 
 def test_raise_if_start_after_join():
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             pass
 
@@ -163,9 +181,11 @@ def test_raise_if_start_after_join():
 
 def test_prepare_call_concrete_prepare():
     called = False
+
     class Dummy(Entity):
         def _configure(self):
             pass
+
         def _prepare(self):
             nonlocal called
             called = True
@@ -174,4 +194,3 @@ def test_prepare_call_concrete_prepare():
     entity.prepare()
 
     assert called
-
