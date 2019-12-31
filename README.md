@@ -7,10 +7,7 @@ Recursive file decompressor.
 You need Python3.7, pipenv and libarchive.
 
 ```
-$ pipenv lock 
-$ pipenv sync -d
-$ pipenv shell
-$ make tests
+$ make dev-env tests
 ```
 
 ### MacOS

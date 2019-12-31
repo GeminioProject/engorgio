@@ -1,11 +1,21 @@
-.PHONY: tests pep8 html-report
+.PHONY: env tests pep8 html-report
+
+ci: ci-env tests
+
+dev-env:
+	pipenv lock
+	pipenv sync -d
+
+ci-env:
+	pipenv lock
+	pipenv sync
 
 tests: pep8
-	 pytest -vv --cov=engorgio --cov-report html --cov-branch tests
+	pipenv run pytest -vv --cov=engorgio --cov-report html --cov-branch tests
 
 pep8:
-	flake8 engorgio/
-	flake8 --max-line-length 99 tests/
+	pipenv run flake8 engorgio/
+	pipenv run flake8 --max-line-length 99 tests/
 
 html-report:
-	 python -m webbrowser file://$$PWD/htmlcov/index.html
+	pipenv run python -m webbrowser file://$$PWD/htmlcov/index.html
