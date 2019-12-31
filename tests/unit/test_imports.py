@@ -6,6 +6,8 @@ import pytest
     ('engordio.signals', '_Signal'),
     ('engordio.signals', 'DirFound'),
     ('engordio.signals', 'FileFound'),
+    ('engordio.signals', 'SymlinkFound'),
+    ('engordio.signals', 'SpecialFileFound'),
     ('engordio.signals', 'UserScanRequested'),
     ('engordio.signals', 'Decompressed'),
     ('engordio.signals', 'DecompressionDiscarded'),

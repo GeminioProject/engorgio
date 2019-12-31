@@ -73,7 +73,19 @@ class DirFound(_Signal):
 
 @dataclass(frozen=True)
 class FileFound(_Signal):
-    """A file was found under the root path."""
+    """A regular file was found under the root path."""
+    path: str
+
+
+@dataclass(frozen=True)
+class SymlinkFound(_Signal):
+    """A symlink to a regular file was found under the root path."""
+    path: str
+
+
+@dataclass(frozen=True)
+class SpecialFileFound(_Signal):
+    """A non regular file was found under the root path."""
     path: str
 
 
