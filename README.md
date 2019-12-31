@@ -2,7 +2,18 @@
 
 Recursive file decompressor.
 
-## MacOS
+## Development
+
+You need Python3.7, pipenv and libarchive.
+
+```
+$ pipenv lock 
+$ pipenv sync -d
+$ pipenv shell
+$ make tests
+```
+
+### MacOS
 
 See documentation on libarchive-c:
 ```
