@@ -13,6 +13,9 @@ import pytest
     ('engorgio.signals', 'DecompressionDiscarded'),
     ('engorgio.signals', 'DecompressionFailed'),
     ('engorgio.signals', 'ContentAdded'),
+
+    # Entities
+    ('engorgio.entity', 'Entity'),
 ])
 def test_objects_are_importable(module, name):
     try:
