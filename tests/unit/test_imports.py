@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.mark.parametrize('module,name', [
     # Signals
     ('engordio.signals', '_Signal'),
