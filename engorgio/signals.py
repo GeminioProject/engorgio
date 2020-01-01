@@ -123,6 +123,7 @@ class DecompressionFailed(_Signal):
     path: str
     #: Some files were able to be decompressed
     partial: bool
+    error: Exception
 
 
 @dataclass(frozen=True)
