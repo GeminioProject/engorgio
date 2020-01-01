@@ -1,10 +1,16 @@
+from unittest.mock import patch
 import inspect
 import os
 import tempfile
 
 
-from engorgio.entities.scanner import classify_path, scandir
-from engorgio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
+from engorgio.entities.scanner import classify_path, scandir, Scanner
+from engorgio.signals import DirFound
+from engorgio.signals import ExitRequested
+from engorgio.signals import FileFound
+from engorgio.signals import SpecialFileFound
+from engorgio.signals import SymlinkFound
+from engorgio.signals import UserScanRequested
 
 
 def test_classify_path_returns_a_filefound_if_regular_file():
@@ -86,3 +92,63 @@ def test_scandir_return_a_list_of_signals_if_dir_contains_dotfile():
         with tempfile.NamedTemporaryFile(prefix='.', dir=path) \
                 as file, tempfile.TemporaryDirectory(dir=path) as subdir:
             assert set(scandir(path)) == {FileFound(path=file.name), DirFound(path=subdir)}
+
+
+def test_scanner_find_regular_file_with_classify_path_on_userscanrequested():
+    found = set()
+
+    def get_found_files(sender, signal):
+        nonlocal found
+        found.add(signal)
+
+    FileFound.connect(get_found_files)
+    DirFound.connect(get_found_files)
+    SpecialFileFound.connect(get_found_files)
+    SymlinkFound.connect(get_found_files)
+
+    with patch('engorgio.entities.scanner.classify_path') as classify_path:
+        with tempfile.TemporaryDirectory() as path:
+            filename = os.path.join(path, 'foo.txt')
+            open(filename, 'w').close()  # Touch foo.txt
+
+            classify_path.return_value = FileFound(path=filename)
+
+            config = {}
+            scanner = Scanner(config)
+            scanner.prepare()
+            scanner.start()
+            UserScanRequested(path=filename).emit()
+            ExitRequested().emit()
+            scanner.join()
+
+            classify_path.assert_called_once_with(filename)
+            assert found == set({FileFound(path=filename)})
+
+
+def test_scanner_find_directory_contents_on_dirfound():
+    found = set()
+
+    def get_found_files(sender, signal):
+        nonlocal found
+        found.add(signal)
+
+    FileFound.connect(get_found_files)
+    SymlinkFound.connect(get_found_files)
+
+    with tempfile.TemporaryDirectory() as path:
+        filename = os.path.join(path, 'foo.txt')
+        open(filename, 'w').close()  # Touch foo.txt
+
+        linkname = os.path.join(path, 'foo.lnk')
+        os.symlink(filename, linkname)
+
+        config = {}
+        scanner = Scanner(config)
+        scanner.prepare()
+        scanner.start()
+        DirFound(path=path).emit()
+        ExitRequested().emit()
+        scanner.join()
+
+        assert found == set({FileFound(path=filename),
+                             SymlinkFound(path=linkname)})

@@ -15,7 +15,7 @@ import pytest
     ('engorgio.signals', 'ContentAdded'),
     ('engorgio.signals', 'ExitRequested'),
 
-    # Entities
+    # Entity and entity helpers
     ('engorgio.entity', 'Entity'),
     ('engorgio.entity', 'prepare_all'),
     ('engorgio.entity', 'start_all'),
@@ -23,6 +23,9 @@ import pytest
 
     # Parse
     ('engorgio.parser', 'make_parser'),
+
+    # Entities
+    ('engorgio.entities.scanner', 'Scanner'),
 ])
 def test_objects_are_importable(module, name):
     try:

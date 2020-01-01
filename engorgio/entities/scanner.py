@@ -8,8 +8,12 @@ Find files to decompress.
 """
 import os
 
-from engorgio.signals import FileFound, DirFound, SymlinkFound, \
-    SpecialFileFound
+from engorgio.entity import Entity
+from engorgio.signals import DirFound
+from engorgio.signals import FileFound
+from engorgio.signals import SpecialFileFound
+from engorgio.signals import SymlinkFound
+from engorgio.signals import UserScanRequested
 
 
 def classify_path(path):
@@ -42,3 +46,19 @@ def scandir(path):
                 yield DirFound(path=entry.path)
             else:
                 yield SpecialFileFound(path=entry.path)
+
+
+class Scanner(Entity):
+    def _configure(self):
+        pass
+
+    def _prepare(self):
+        self._attach(UserScanRequested, self.on_user_scan_requested)
+        self._attach(DirFound, self.on_dir_found)
+
+    def on_user_scan_requested(self, signal):
+        classify_path(signal.path).emit()
+
+    def on_dir_found(self, signal):
+        for s in scandir(signal.path):
+            s.emit()
