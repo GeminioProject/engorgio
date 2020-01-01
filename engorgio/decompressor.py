@@ -21,6 +21,10 @@ def decompress(filepath, sandbox):
         return Decompressed(source=filepath, path=new_filepath)
     except libarchive.exception.ArchiveError as e:
         os.chdir(previous_workdir)
-        # If there are more than 2 files on new_filepath, implies there is a partial decompression
+        # More than 2 files (. and ..) in new_filepath, implies there
+        # was a partial decompression
         partial_decompression = len(os.listdir(new_filepath)) > 2
-        return DecompressionFailed(source=filepath, path=new_filepath, partial=partial_decompression, error=e)
+        return DecompressionFailed(source=filepath,
+                                   path=new_filepath,
+                                   partial=partial_decompression,
+                                   error=e)

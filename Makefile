@@ -15,7 +15,7 @@ tests:
 
 pep8:
 	pipenv run flake8 engorgio/
-	pipenv run flake8 --max-line-length 99 tests/
+	pipenv run flake8 --max-line-length 120 tests/
 
 html-report:
 	pipenv run python -m webbrowser file://$$PWD/htmlcov/index.html
