@@ -17,8 +17,7 @@ class _State(Enum):
 
 class Entity(abc.ABC):
     """
-    Encapsulate some functionality in a, usually concurrent, execution
-    unit.
+    Encapsulate some functionality in a concurrent execution unit.
 
     Enforces a protocol to normalize how it is used.
 
@@ -98,7 +97,7 @@ class Entity(abc.ABC):
         """
         Dequeue from `self._queue` until an `ExitRequested` arrives.
 
-        This function is executed in a separated thread.
+        This function is executed in a separate thread.
 
         """
         while True:
