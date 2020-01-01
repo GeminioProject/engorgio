@@ -132,3 +132,9 @@ class ContentAdded(_Signal):
     source: str
     #: Final destination path of the added content
     path: str
+
+
+@dataclass(frozen=True)
+class ExitRequested(_Signal):
+    """Some entity requested that processing should be stopped."""
+    pass

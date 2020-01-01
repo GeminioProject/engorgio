@@ -1,8 +1,14 @@
-import abc
+from collections import defaultdict
 from enum import Enum, auto
+import abc
+import queue
+import threading
+
+from engorgio.signals import ExitRequested
 
 
 class _State(Enum):
+    """Stated used by the `Entity` internal state machine."""
     INIT = auto()
     PREPARED = auto()
     STARTED = auto()
@@ -27,6 +33,9 @@ class Entity(abc.ABC):
     def __init__(self, config):
         self.config = config
         self._state = _State.INIT
+        self._attached = defaultdict(set)
+        self._queue = queue.Queue()
+        self._thread = None
         self._configure()
 
     @abc.abstractmethod
@@ -36,7 +45,7 @@ class Entity(abc.ABC):
 
     @abc.abstractmethod
     def _prepare(self):
-        """Attach handlers to needed signals."""
+        """Attach handlers to needed signals using `self._attach`."""
         pass
 
     def prepare(self):
@@ -44,14 +53,67 @@ class Entity(abc.ABC):
         if self._state is not _State.INIT:
             raise RuntimeError(f'Cannot prepare from state {self._state}')
         self._state = _State.PREPARED
+        ExitRequested.connect(self._enqueue)
         self._prepare()
 
     def start(self):
+        """
+        Start `self._dequeue` in a new thread referenced by `self._thread`.
+
+        """
         if self._state is not _State.PREPARED:
             raise RuntimeError(f'Cannot start from state {self._state}')
         self._state = _State.STARTED
+        self._thread = threading.Thread(group=None, target=self._dequeue)
+        self._thread.start()
 
     def join(self):
+        """
+        Wait for `self._thread` to finish.
+
+        """
         if self._state is not _State.STARTED:
             raise RuntimeError(f'Cannot join from state {self._state}')
+        self._thread.join()
         self._state = _State.JOINED
+
+    def _attach(self, signal, handler):
+        """
+        Arrange that `handler` be called when `signal` arrives.
+
+        """
+        if signal not in self._attached:
+            signal.connect(self._enqueue)
+        self._attached[signal].add(handler)
+
+    def _dispatch(self, signal):
+        """
+        Call all handlers attached by `self._attach` to `signal`.
+
+        """
+        for handler in self._attached[signal.__class__]:
+            handler(signal)
+
+    def _dequeue(self):
+        """
+        Dequeue from `self._queue` until an `ExitRequested` arrives.
+
+        This function is executed in a separated thread.
+
+        """
+        while True:
+            signal = self._queue.get()
+            self._dispatch(signal)
+            if isinstance(signal, ExitRequested):
+                break
+
+    def _enqueue(self, sender, signal):
+        """
+        Add the given signal to `self._queue` to be processed by the handlers.
+
+        This is the handler given to `engordio.signals` signals.
+
+        Is called in the main application thread.
+
+        """
+        self._queue.put(signal)

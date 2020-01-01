@@ -13,6 +13,7 @@ import pytest
     ('engorgio.signals', 'DecompressionDiscarded'),
     ('engorgio.signals', 'DecompressionFailed'),
     ('engorgio.signals', 'ContentAdded'),
+    ('engorgio.signals', 'ExitRequested'),
 
     # Entities
     ('engorgio.entity', 'Entity'),
