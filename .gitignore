@@ -132,3 +132,6 @@ Pipfile.lock
 
 # Pycharm files
 .idea/
+
+# MacOS files
+.DS_Store
