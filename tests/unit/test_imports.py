@@ -17,6 +17,9 @@ import pytest
 
     # Entities
     ('engorgio.entity', 'Entity'),
+
+    # Parse
+    ('engorgio.parser', 'make_parser'),
 ])
 def test_objects_are_importable(module, name):
     try:
