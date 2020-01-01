@@ -12,6 +12,7 @@ engorgio = {editable = true,path = "."}
 coverage = "*"
 pytest-cov = "*"
 flake8 = "*"
+pytest-timeout = "*"
 
 [requires]
 python_version = "3.7"

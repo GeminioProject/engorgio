@@ -138,3 +138,9 @@ class ContentAdded(_Signal):
 class ExitRequested(_Signal):
     """Some entity requested that processing should be stopped."""
     pass
+
+
+@dataclass(frozen=True)
+class PathProcessingFinished(_Signal):
+    """The processing of the given path has ended."""
+    path: str

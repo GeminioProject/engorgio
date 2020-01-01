@@ -14,6 +14,7 @@ import pytest
     ('engorgio.signals', 'DecompressionFailed'),
     ('engorgio.signals', 'ContentAdded'),
     ('engorgio.signals', 'ExitRequested'),
+    ('engorgio.signals', 'PathProcessingFinished'),
 
     # Entity and entity helpers
     ('engorgio.entity', 'Entity'),
@@ -26,6 +27,7 @@ import pytest
 
     # Entities
     ('engorgio.entities.scanner', 'Scanner'),
+    ('engorgio.entities.stopper', 'Stopper'),
 ])
 def test_objects_are_importable(module, name):
     try:
