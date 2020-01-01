@@ -3,7 +3,7 @@ import os
 import tempfile
 
 
-from engorgio.scanner import classify_path, scandir
+from engorgio.entities.scanner import classify_path, scandir
 from engorgio.signals import FileFound, DirFound, SymlinkFound, SpecialFileFound
 
 
