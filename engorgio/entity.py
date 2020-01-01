@@ -38,12 +38,12 @@ class Entity(abc.ABC):
         self._configure()
 
     @abc.abstractmethod
-    def _configure(self):
+    def _configure(self):  # pragma: no cover
         """Set any attributes needed by the subclass."""
         pass
 
     @abc.abstractmethod
-    def _prepare(self):
+    def _prepare(self):  # pragma: no cover
         """Attach handlers to needed signals using `self._attach`."""
         pass
 
