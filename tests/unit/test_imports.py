@@ -17,6 +17,9 @@ import pytest
 
     # Entities
     ('engorgio.entity', 'Entity'),
+    ('engorgio.entity', 'prepare_all'),
+    ('engorgio.entity', 'start_all'),
+    ('engorgio.entity', 'join_all'),
 
     # Parse
     ('engorgio.parser', 'make_parser'),

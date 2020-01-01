@@ -5,6 +5,9 @@ import threading
 import pytest
 
 from engorgio.entity import Entity
+from engorgio.entity import join_all
+from engorgio.entity import prepare_all
+from engorgio.entity import start_all
 from engorgio.signals import _Signal, ExitRequested
 
 
@@ -352,3 +355,33 @@ def test_signals_get_dispatched_until_exitrequested():
     entity.join()
 
     assert expected is test_signal
+
+
+def test_prepare_all_call_prepare_on_all_entitities():
+    e1 = MagicMock()
+    e2 = MagicMock()
+
+    prepare_all(e1, e2)
+
+    e1.prepare.assert_called_once()
+    e2.prepare.assert_called_once()
+
+
+def test_start_all_call_start_on_all_entitities():
+    e1 = MagicMock()
+    e2 = MagicMock()
+
+    start_all(e1, e2)
+
+    e1.start.assert_called_once()
+    e2.start.assert_called_once()
+
+
+def test_join_all_call_join_on_all_entitities():
+    e1 = MagicMock()
+    e2 = MagicMock()
+
+    join_all(e1, e2)
+
+    e1.join.assert_called_once()
+    e2.join.assert_called_once()

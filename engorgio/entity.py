@@ -119,3 +119,21 @@ class Entity(abc.ABC):
 
         """
         self._queue.put(signal)
+
+
+def prepare_all(*entities):
+    """Prepare all given entities."""
+    for entity in entities:
+        entity.prepare()
+
+
+def start_all(*entities):
+    """Start all given entities."""
+    for entity in entities:
+        entity.start()
+
+
+def join_all(*entities):
+    """Join all given entities."""
+    for entity in entities:
+        entity.join()
