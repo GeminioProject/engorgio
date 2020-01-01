@@ -50,7 +50,8 @@ class Entity(abc.ABC):
     def prepare(self):
         """Call `_prepare`."""
         if self._state is not _State.INIT:
-            raise RuntimeError(f'Cannot prepare from state {self._state}')
+            raise RuntimeError(
+                f'Cannot prepare() when state is {self._state.name}')
         self._state = _State.PREPARED
         ExitRequested.connect(self._enqueue)
         self._prepare()
@@ -61,7 +62,8 @@ class Entity(abc.ABC):
 
         """
         if self._state is not _State.PREPARED:
-            raise RuntimeError(f'Cannot start from state {self._state}')
+            raise RuntimeError(
+                f'Cannot start() when state is {self._state.name}')
         self._state = _State.STARTED
         self._thread = threading.Thread(group=None, target=self._dequeue)
         self._thread.start()
@@ -72,7 +74,8 @@ class Entity(abc.ABC):
 
         """
         if self._state is not _State.STARTED:
-            raise RuntimeError(f'Cannot join from state {self._state}')
+            raise RuntimeError(
+                f'Cannot join() when state is {self._state.name}')
         self._thread.join()
         self._state = _State.JOINED
 
